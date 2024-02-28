@@ -1,0 +1,12 @@
+target_sources(${THOR_TARGET} PRIVATE
+	"${CMAKE_CURRENT_SOURCE_DIR}/guidcmp.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/memset.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/memcpy.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/strcpy.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/memcmp.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/strcmp.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/itoa.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/strrev.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/strrep.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/strlen.c"
+)

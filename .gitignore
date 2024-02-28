@@ -1,0 +1,9 @@
+*.so
+*.sh
+*.img
+*.bin
+*.efi
+*.elf
+*.dat
+
+build/
