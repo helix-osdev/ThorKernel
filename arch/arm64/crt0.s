@@ -22,15 +22,6 @@ _start:
 	adr x0, vector_table
 	msr vbar_el1, x0
 
-	// Setup initial stack space
-	ldr x0, =__sstack
-	mov sp, x0
-
-	// Now that we're in virtual memory we need to
-	// setup new page tables and discard the ones
-	// used by Helix
-	bl mmu_init
-
 	// Restore boot arguments
 	mov x0, x20
 	mov x1, x21

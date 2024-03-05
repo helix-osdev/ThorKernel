@@ -123,32 +123,5 @@
 mmu_init:
 	stp x29, x30, [sp, #-16]!
 
-	ldr x0, =l1_table
-	ldr x1, =l2_table
-	ldr x3, =l3_table
-
-
-	bl __flush_dcache_all
-	bl __inval_dcache_all
-
 	ldp x29, x30, [sp], #16
 	ret
-
-
-
-.section .data.page_tables,"wa"
-.global l1_table
-.global l2_table
-.global l3_table
-
-
-
-
-l1_table:
-	.fill 512 * 8, 1, 0
-
-l2_table:
-	.fill 512 * 8, 1, 0
-
-l3_table:
-	.fill 512 * 8, 1, 0
