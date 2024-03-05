@@ -4,15 +4,10 @@ ENTRY(_start)
 
 
 
+KERNEL_VIRT = 0xffff000000000000;
+KERNEL_PHYS = 0x40300000;
 
-KERNEL_VIRT = 0xffff000040300000;
 
-
-/* NOTE:
- * Don't place 'PHDRS' in text program header. This
- * fucks up the address alignment and Helix can't
- * allocate pages to this address
- */
 PHDRS
 {	
 	text    PT_LOAD;
@@ -20,44 +15,62 @@ PHDRS
     rodata  PT_LOAD;
 }
 
-
-
 SECTIONS
 {
 	. = KERNEL_VIRT;
 
+	/* This will ensure the final executable's physical
+	 * address will match it' virtual memory region
+	 */
+	. = . + KERNEL_PHYS;
+
 	__kernel_start = .;
 
-	.text ALIGN(4K) : AT(ADDR(.text) - KERNEL_VIRT) {
+	.text ALIGN(0x1000) : AT(ADDR(.text) - KERNEL_VIRT) {
 		__stext = .;
 		*(.text*)
+		*(.eh_frame)
 		__etext = .;
 	} :text
 
-	.data ALIGN(4K) : AT(ADDR(.data) - KERNEL_VIRT) {
+	. += CONSTANT(MAXPAGESIZE);
+
+	.data ALIGN(0x1000) : AT(ADDR(.data) - KERNEL_VIRT) {
 		__sdata = .;
 		*(.data*)
+		*(.got*)
 		__edata = .;
 	} :data
 
-	.rodata ALIGN(4K) : AT(ADDR(.rodata) - KERNEL_VIRT) {
+	. += CONSTANT(MAXPAGESIZE);
+
+	.rodata ALIGN(0x1000) : AT(ADDR(.rodata) - KERNEL_VIRT) {
 		__srodata = .;
 		*(.rodata*)
 		__erodata = .;
 	} :rodata
 
-	.bss ALIGN(4K) : AT(ADDR(.bss) - KERNEL_VIRT) {
+	. += CONSTANT(MAXPAGESIZE);
+
+	.bss ALIGN(0x1000) (NOLOAD) : AT(ADDR(.bss) - KERNEL_VIRT) {
 		__sbss = .;
 		*(.bss*)
 		*(COMMON)
 		__ebss = .;
 
-		__sstack = .;
-		. += 524288;
-		__estack = .;
+		__heap_start = .;
+		/* 1MB heap */
+		. = . + 0x100000;
+		__heap_end = .;
+
+		__stack_start = .;
+		/* 1MB stack */
+		. = . + 0x100000;
+		__stack_end = .;
 
 		__page_tables_start = .;
-		KEEP(*(.bss.page_tables));
+		/* 1MB page tables */
+		. = . + 0x100000;
 		__page_tables_end = .;
 	} :data
 
@@ -67,9 +80,5 @@ SECTIONS
 		*(.note)
 		*(.interp*)
 		*(.comment)
-		*(.eh_frame)
-		*(.dynamic)
-		*(.dynstr)
-		*(.dynsym)
 	}
 }
