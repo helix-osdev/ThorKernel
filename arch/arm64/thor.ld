@@ -13,6 +13,7 @@ PHDRS
 	text    PT_LOAD;
 	data	PT_LOAD;
     rodata  PT_LOAD;
+	bss		PT_LOAD;
 }
 
 SECTIONS
@@ -52,27 +53,26 @@ SECTIONS
 
 	. += CONSTANT(MAXPAGESIZE);
 
+	.page_tables ALIGN(0x1000) (NOLOAD) : AT(ADDR(.page_tables) - KERNEL_VIRT) {
+		__page_tables_start = .;
+		KEEP(*(.page_tables*));
+		__page_tables_end = .;
+	} :bss
+
+	. += CONSTANT(MAXPAGESIZE);
+
 	.bss ALIGN(0x1000) (NOLOAD) : AT(ADDR(.bss) - KERNEL_VIRT) {
 		__sbss = .;
 		*(.bss*)
 		*(COMMON)
 		__ebss = .;
 
-		__heap_start = .;
-		/* 1MB heap */
-		. = . + 0x100000;
-		__heap_end = .;
-
 		__stack_start = .;
-		/* 1MB stack */
-		. = . + 0x100000;
+		/* 512KB stack */
+		. = . + 0x80000;
 		__stack_end = .;
 
-		__page_tables_start = .;
-		/* 1MB page tables */
-		. = . + 0x100000;
-		__page_tables_end = .;
-	} :data
+	} :bss
 
 	__kernel_end = .;
 
