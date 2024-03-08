@@ -21,7 +21,7 @@ SECTIONS
 	. = KERNEL_VIRT;
 
 	/* This will ensure the final executable's physical
-	 * address will match it' virtual memory region
+	 * address will match it's virtual memory region
 	 */
 	. = . + KERNEL_PHYS;
 
