@@ -26,11 +26,6 @@ int kernel_stage1(bootinfo_t *info) {
 
 	printf(">> Thor Kernel <<\n");
 
-	// This should cause a fault since the region is R/O
-	// but still is accessable... wtf QEMU!!!
-	uint64_t *p = (uint64_t *)0xffff000040000000;
-	p[0] = 0x41414141;
-
 	//efi_shutdown();
 	while(1);
 }
