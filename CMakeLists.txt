@@ -30,7 +30,7 @@ if(${THOR_ARCH} STREQUAL "arm64")
 		-mcpu=cortex-a57
 		-mgeneral-regs-only
 		-Wno-unused-command-line-argument
-		-fPIE
+		-fPIC
 	)
 
 	target_link_options(${THOR_TARGET} PRIVATE
