@@ -31,6 +31,7 @@ if(${THOR_ARCH} STREQUAL "arm64")
 		-mgeneral-regs-only
 		-Wno-unused-command-line-argument
 		-fPIC
+		-z max-page-size=0x1000
 	)
 
 	target_link_options(${THOR_TARGET} PRIVATE
