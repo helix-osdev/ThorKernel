@@ -1,4 +1,5 @@
 #include <efi.h>
+#include <mm/mm.h>
 #include <mm/pmm.h>
 #include <mm/vmm.h>
 #include <kernel.h>
@@ -11,8 +12,8 @@
 
 
 
-int kernel_stage1(bootinfo_t *info) {
-	bootinfo_t *b = (bootinfo_t *)info;
+int kernel_stage1(bootinfo_t *boot_info) {
+	bootinfo_t *info = (bootinfo_t *)boot_info;
 
 	uart_config_t cfg = {
 		.parity = false,
@@ -21,11 +22,9 @@ int kernel_stage1(bootinfo_t *info) {
 		.stop_bits = 1
 	};
 
-	//efi_runtime_services_init(b);
 	uart_init(&cfg);
 
-	printf(">> Thor Kernel <<\n");
+	printf("Thor Kernel init\n");
 
-	//efi_shutdown();
 	while(1);
 }
