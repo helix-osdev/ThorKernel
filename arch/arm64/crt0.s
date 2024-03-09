@@ -18,11 +18,6 @@ _start:
 	mov x22, x2
 	mov x23, x3
 
-	// Helix will have setup temporary page tables
-	// to get us into virtual memory. We'll need to
-	// setup new initial page tables :^)
-	bl mmu_init
-
 	// Setup stack
 	ldr x0, =__stack_end
 	mov sp, x0

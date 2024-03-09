@@ -1,6 +1,5 @@
 target_sources(${THOR_TARGET} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/crt0.s"
-	"${CMAKE_CURRENT_SOURCE_DIR}/mmu.s"
 	"${CMAKE_CURRENT_SOURCE_DIR}/cache.s"
 	"${CMAKE_CURRENT_SOURCE_DIR}/vectors.s"
 	"${CMAKE_CURRENT_SOURCE_DIR}/exception.c"
