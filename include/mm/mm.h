@@ -13,4 +13,10 @@ typedef struct {
     efi_memory_descriptor_t *map;
 } efi_memory_map_t;
 
+
+
+
+
+efi_memory_descriptor_t *for_each_desc(efi_memory_map_t *m, uint64_t idx);
+
 #endif
